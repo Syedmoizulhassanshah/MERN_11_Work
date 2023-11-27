@@ -1,17 +1,20 @@
 const authModel = require("../models/authModel");
 
 module.exports = {
-  login: () => {
+  login: (body) => {
     try {
+      console.log("number is:", body);
       const loginResponse = authModel.login();
       if (loginResponse.error) {
         return {
           error: loginResponse.error,
         };
       }
-      return {
-        response: loginResponse.response,
-      };
+      if (body % 2 === 0) {
+        return {
+          response: loginResponse.response,
+        };
+      }
     } catch (error) {
       return { error: error };
     }

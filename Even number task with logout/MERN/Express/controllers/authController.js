@@ -3,7 +3,8 @@ const authService = require("../services/authService");
 module.exports = {
   login: (req, res) => {
     try {
-      const loginResponse = authService.login();
+      console.log("req data body", parseInt(req.body.number)); //
+      const loginResponse = authService.login(parseInt(req.body.number));
       if (loginResponse.error) {
         res.send({
           error: loginResponse.error,
@@ -21,6 +22,7 @@ module.exports = {
 
   logout: (req, res) => {
     try {
+      console.log("req query", req.query);
       const logoutResponse = authService.logout();
       if (logoutResponse.error) {
         res.send({
