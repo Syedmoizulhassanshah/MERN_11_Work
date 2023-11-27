@@ -1,20 +1,18 @@
 const authModel = require("../models/authModel");
+const bcrypt = require("bcrypt");
 
 module.exports = {
-  login: (body) => {
+  login: () => {
     try {
-      console.log("number is:", body);
       const loginResponse = authModel.login();
       if (loginResponse.error) {
         return {
           error: loginResponse.error,
         };
       }
-      if (body % 2 === 0) {
-        return {
-          response: loginResponse.response,
-        };
-      }
+      return {
+        response: loginResponse.response,
+      };
     } catch (error) {
       return { error: error };
     }
@@ -34,9 +32,13 @@ module.exports = {
       return { error: error };
     }
   },
-  signup: () => {
+  signup: async (body) => {
     try {
-      const signupResponse = authModel.signup();
+      delete body.confirmPassword;
+      console.log("check service");
+      body.password = await bcrypt.hash(body.password, 10);
+      console.log("check service 1");
+      const signupResponse = await authModel.signup(body);
       if (signupResponse.error) {
         return {
           error: signupResponse.error,

@@ -2,7 +2,7 @@ module.exports = {
   login: () => {
     try {
       return {
-        response: "your are logged in and number you passed is even.",
+        response: "your are logged in",
       };
     } catch (error) {
       return {
@@ -23,10 +23,10 @@ module.exports = {
     }
   },
 
-  signup: () => {
+  signup: async (body) => {
     try {
       return {
-        response: "your are signed-up.",
+        response: body,
       };
     } catch (error) {
       return {
