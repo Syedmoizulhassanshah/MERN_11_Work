@@ -23,10 +23,10 @@ module.exports = {
     }
   },
 
-  signup: async (body) => {
+  signup: () => {
     try {
       return {
-        response: body,
+        response: "your are signed-up.",
       };
     } catch (error) {
       return {

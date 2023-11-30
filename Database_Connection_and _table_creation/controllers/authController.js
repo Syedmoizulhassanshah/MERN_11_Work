@@ -1,25 +1,9 @@
 const authService = require("../services/authService");
-const joi = require("joi");
-
-const loginSchema = joi.object().keys({
-  email: joi.string().required().email().min(3).max(60),
-  password: joi.string().required().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
-});
-
-const signupSchema = joi.object().keys({
-  firstName: joi.string().required().min(3).max(40),
-  lastName: joi.string().required().min(3).max(40),
-  email: joi.string().required().email().min(3).max(60),
-  password: joi.string().required().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
-  confirmPassword: joi.ref("password"),
-});
 
 module.exports = {
-  login: async (req, res) => {
+  login: (req, res) => {
     try {
-      const validate = await loginSchema.validateAsync(req.body);
-      console.log("login schema body:", req.body); //
-      const loginResponse = authService.login(req.body);
+      const loginResponse = authService.login();
       if (loginResponse.error) {
         res.send({
           error: loginResponse.error,
@@ -37,7 +21,6 @@ module.exports = {
 
   logout: (req, res) => {
     try {
-      console.log("req query", req.query);
       const logoutResponse = authService.logout();
       if (logoutResponse.error) {
         res.send({
@@ -54,12 +37,9 @@ module.exports = {
     }
   },
 
-  signup: async (req, res) => {
+  signup: (req, res) => {
     try {
-      const validate = await signupSchema.validateAsync(req.body);
-      console.log("signup schema body:", req.body); //
-
-      const signupResponse = await authService.signup(validate);
+      const signupResponse = authService.signup();
       if (signupResponse.error) {
         res.send({
           error: signupResponse.error,
