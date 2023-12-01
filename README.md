@@ -1,2 +1,2 @@
 # MERN_11_Work
-Work that i performed in KS.
+Work that i performed for KS.
