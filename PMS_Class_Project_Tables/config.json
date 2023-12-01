@@ -5,7 +5,6 @@
     "username": "postgres",
     "password": "3520262148721mZ",
     "database": "LMS2",
-    "dialect": "postgres",
-    "logging": true
+    "dialect": "postgres"
   }
 }

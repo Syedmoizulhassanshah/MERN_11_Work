@@ -7,8 +7,13 @@ Users.init(
   // passing two objects here one object is columns name and the other objects is options fr db
   {
     userId: {
+      type: DataTypes.INTEGER(60),
       primaryKey: true,
+    },
+    userName: {
       type: DataTypes.STRING(60),
+      unique: true,
+      allowNull: false,
     },
     firstName: {
       type: DataTypes.STRING(60),
@@ -25,6 +30,10 @@ Users.init(
     },
     password: {
       type: DataTypes.STRING(60),
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING(30),
       allowNull: false,
     },
   },
