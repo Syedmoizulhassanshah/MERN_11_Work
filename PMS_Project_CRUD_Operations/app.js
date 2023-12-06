@@ -5,16 +5,16 @@ var logger = require("morgan");
 
 var app = express();
 
-var authRouter = require("./routes/authRouter"); //
-var userRouter = require("./routes/userRouter"); //
+var authRouter = require("./routes/authRouter");
+var userRouter = require("./routes/userRouter");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/auth", authRouter); //
-app.use("/user", userRouter); //
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
