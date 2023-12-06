@@ -35,7 +35,7 @@ module.exports = {
   getAllUsers: async (query) => {
     try {
       const offset = (query.pageNo - 1) * query.limit;
-      const users = await userModel.getAllUsers(offset, query.limit);
+      const users = await userModel.getAllUsers(offset, query);
       if (users.error) {
         return {
           error: users.error,
@@ -61,6 +61,30 @@ module.exports = {
         };
       }
 
+      return {
+        response: user.response,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
+
+  updateUser: async (body) => {
+    try {
+      const isUser = await userModel.getUserByEmail(body.email);
+      if (!isUser.response || isUser.error) {
+        return {
+          error: "user does not exist",
+        };
+      }
+      const user = await userModel.updateUser(body);
+      if (user.error) {
+        return {
+          error: user.error,
+        };
+      }
       return {
         response: user.response,
       };

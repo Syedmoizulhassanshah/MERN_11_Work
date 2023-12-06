@@ -10,6 +10,14 @@ const createUserSchema = joi.object().keys({
   role: joi.string().valid("instructor", "trainee"),
 });
 
+const updateUserSchema = joi.object().keys({
+  userId: joi.string().required(),
+  firstName: joi.string().required().min(3).max(40),
+  lastName: joi.string().required().min(3).max(40),
+  email: joi.string().required().email(),
+  role: joi.string().valid("instructor", "trainee"),
+});
+
 const getByUserIdSchema = joi.object().keys({
   userId: joi.string().required(),
 });
@@ -17,6 +25,10 @@ const getByUserIdSchema = joi.object().keys({
 const paginationSchema = joi.object().keys({
   pageNo: joi.number().required().greater(0),
   limit: joi.number().valid(5, 10),
+  sortValue: joi
+    .string()
+    .valid("userId", "email", "role", "firstName", "lastName"),
+  sortOrder: joi.valid("ASC", "DESC"),
 });
 
 module.exports = {
@@ -61,6 +73,25 @@ module.exports = {
     try {
       const validate = await getByUserIdSchema.validateAsync(req.query);
       const user = await userService.deleteUser(validate);
+      if (user.error) {
+        return res.send({
+          error: user.error,
+        });
+      }
+      return res.send({
+        response: user.response,
+      });
+    } catch (error) {
+      return res.send({
+        error: error,
+      });
+    }
+  },
+
+  updateUser: async (req, res) => {
+    try {
+      const validate = await updateUserSchema.validateAsync(req.body);
+      const user = await userService.updateUser(validate);
       if (user.error) {
         return res.send({
           error: user.error,

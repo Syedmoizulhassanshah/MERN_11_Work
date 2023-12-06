@@ -27,9 +27,9 @@ Users.init(
       allowNull: false,
     },
     role: {
-      type: DataTypes.STRING(),
       allowNull: false,
-      defaultValue: "TRAINEE",
+      type: DataTypes.ENUM,
+      values: ["instructor", "trainee"],
     },
   },
   {

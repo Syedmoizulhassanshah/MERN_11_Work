@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  getAllUsers: async (offset, limit) => {
+  getAllUsers: async (offset, query) => {
     try {
       const users = await models.users.findAll({
         // attributes : ["firstName", "lastName", "role", "email"]
@@ -42,8 +42,9 @@ module.exports = {
           exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
         },
 
+        order: [[query.sortValue, query.sortOrder]],
         offset: offset,
-        limit: limit,
+        limit: query.limit,
       });
       return {
         response: users,
@@ -66,6 +67,29 @@ module.exports = {
         response: user,
       };
     } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
+
+  updateUser: async (body) => {
+    try {
+      const user = await models.users.update(
+        {
+          ...body,
+        },
+        {
+          where: {
+            userId: body.userId,
+          },
+        }
+      );
+      return {
+        response: user,
+      };
+    } catch (error) {
+      console.log("error ", error);
       return {
         error: error,
       };
